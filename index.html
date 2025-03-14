@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌼 Zana's Friendly Hub 🍀</title>
+    <!-- PWA Manifest -->
+    <link
+      rel="manifest"
+      href="data:application/manifest+json,%7B%22short_name%22%3A%22ZanaRemind%22%2C%22name%22%3A%22Zana%27s%20Friendly%20Hub%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAACXBIWXMAAA7EAAAOxAGVKw4b%22%2C%22type%22%3A%22image%2Fpng%22%2C%22sizes%22%3A%22192x192%22%7D%2C%7B%22src%22%3A%22data%3Aimage%2Fpng%3Bbase64%2CiVBORw0KGgoAAAANSUhEUgAAANAAAADQCAYAAAB2pO90AAAACXBIWXMAAA7EAAAOxAGVKw4b%22%2C%22type%22%3A%22image%2Fpng%22%2C%22sizes%22%3A%22512x512%22%7D%5D%2C%22start_url%22%3A%22./index.html%22%2C%22display%22%3A%22standalone%22%2C%22theme_color%22%3A%22%23ff9eb5%22%2C%22background_color%22%3A%22%23fff5f7%22%7D"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Short+Stack&family=Itim&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --main-pink: #ff9eb5;
+        --soft-peach: #ffe5ec;
+      }
+
+      body {
+        background: linear-gradient(
+            rgba(255, 245, 247, 0.9),
+            rgba(255, 158, 181, 0.9)
+          ),
+          url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36zwjjgzhhYWGMYAEYB8RmROaABADeOQ8CXl/xfgAAAABJRU5ErkJggg==');
+        font-family: 'Itim', cursive;
+        min-height: 100vh;
+        margin: 0;
+        color: #5a3d4a;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 600px;
+        padding: 20px;
+        margin-top: 2rem;
+      }
+
+      header {
+        text-align: center;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 0 20px rgba(255, 158, 181, 0.2);
+      }
+
+      h1 {
+        font-family: 'Short Stack', cursive;
+        font-size: 2.5rem;
+        color: var(--main-pink);
+        margin: 0 0 1rem 0;
+      }
+
+      section {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(255, 158, 181, 0.1);
+        transition: transform 0.3s ease;
+      }
+      section:hover {
+        transform: translateY(-5px);
+      }
+
+      /* Reminders section (toggle & test button) */
+      .reminder-controls {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      button {
+        background: var(--main-pink);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 25px;
+        font-family: 'Short Stack', cursive;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+      }
+      button:hover {
+        background: #ff87a2;
+        transform: scale(1.05);
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: var(--main-pink);
+      }
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      /* Daily Reminders (Life is Good) section */
+      .daily-reminders ul {
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0 0;
+      }
+      .daily-reminders li {
+        margin: 0.5rem 0;
+      }
+
+      /* Sparkle animation for fun (unused but kept in case needed) */
+      .sparkle {
+        position: absolute;
+        animation: sparkle 1s ease-out;
+      }
+      @keyframes sparkle {
+        0% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(3);
+        }
+      }
+
+      footer {
+        text-align: center;
+        padding: 1rem;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #5a3d4a;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <h1>Hey Zana! 🌸</h1>
+        <p>Your personal space for fun chats and reminders 📲</p>
+      </header>
+
+      <!-- Friendly Reminders Section -->
+      <section class="reminders">
+        <h2>⏰ Friendly Reminders</h2>
+        <div class="reminder-controls">
+          <label class="switch">
+            <input type="checkbox" id="reminderToggle" />
+            <span class="slider"></span>
+          </label>
+          <button id="testReminder">Test Reminder 🔔</button>
+        </div>
+        <p>Enable gentle nudges to check messages</p>
+      </section>
+
+      <!-- Daily Reminders: Life is Good Section -->
+      <section class="daily-reminders">
+        <h2>🌱 Daily Reminders: Life Is Good 🌱</h2>
+        <ul>
+          <li>Every day is a new chance to smile.</li>
+          <li>You are loved and appreciated.</li>
+          <li>Little joys add up to a wonderful life.</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>Made to Keep Conversations Flowing 💬</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Request notification permission
+      Notification.requestPermission().then((perm) => {
+        if (perm === "granted") {
+          console.log("Notification permission granted");
+        }
+      });
+
+      // Reminder System
+      let reminderInterval;
+      const reminderMessages = [
+        "Psst! Someone left you a sweet message 📩",
+        "Hey! Your messages are waiting 🌸",
+        "Friendly nudge to check your chats 💌",
+        "New message alert! 📲",
+        "Your turn to reply maybe? 😊"
+      ];
+
+      document.getElementById("reminderToggle").addEventListener("change", (e) => {
+        if (e.target.checked) {
+          // Send a reminder notification every hour
+          reminderInterval = setInterval(() => {
+            new Notification("🌼 Friendly Reminder", {
+              body:
+                reminderMessages[
+                  Math.floor(Math.random() * reminderMessages.length)
+                ],
+              icon:
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4b"
+            });
+          }, 3600000); // 1 hour in milliseconds
+        } else {
+          clearInterval(reminderInterval);
+        }
+      });
+
+      // Test Reminder
+      document.getElementById("testReminder").addEventListener("click", () => {
+        new Notification("🔔 Test Reminder", {
+          body: "This is what a gentle nudge looks like!",
+          icon:
+            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAA7EAAAOxAGVKw4b"
+        });
+      });
+
+      // Service Worker for Offline Access
+      if ("serviceWorker" in navigator) {
+        const swCode = `
+          self.addEventListener('install', e => {
+            e.waitUntil(
+              caches.open('message-helper').then(cache =>
+                cache.addAll([location.href, new Request('./index.html')])
+              )
+            );
+          });
+          self.addEventListener('fetch', e => {
+            e.respondWith(
+              caches.match(e.request).then(response => response || fetch(e.request))
+            );
+          });
+        `;
+        navigator.serviceWorker.register(
+          URL.createObjectURL(new Blob([swCode], { type: "text/javascript" }))
+        );
+      }
+    </script>
+  </body>
+</html>
